@@ -79,4 +79,11 @@ window.addEventListener("resize", () => {
   });
 });
 
+window.addEventListener("load", () => {
+  const targetId = window.location.hash.slice(1);
+  const target = targetId ? document.getElementById(targetId) : null;
+
+  target?.scrollIntoView({ block: "start" });
+});
+
 // TODO: заменить ссылку-заглушку Telegram на реальный username или подключить отправку формы во второй версии.

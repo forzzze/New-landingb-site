@@ -1,12 +1,71 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="#11141C"/>
-  <rect x="2" y="2" width="60" height="60" rx="14" stroke="url(#paint0_linear)" stroke-width="4"/>
-  <path d="M18 18H46V25H27V31H43V38H27V50H18V18Z" fill="#F4F6FA"/>
-  <path d="M35 42L46 31V42H35Z" fill="#00E5A8"/>
+<svg width="980" height="220" viewBox="0 0 980 220" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FORZE LAND logo">
   <defs>
-    <linearGradient id="paint0_linear" x1="5" y1="5" x2="59" y2="59" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6D5CFF"/>
-      <stop offset="1" stop-color="#00E5A8"/>
+    <linearGradient id="neonStroke" x1="30" y1="34" x2="190" y2="190" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.34" stop-color="#36D8FF"/>
+      <stop offset="0.68" stop-color="#7567FF"/>
+      <stop offset="1" stop-color="#B84DFF"/>
     </linearGradient>
+
+    <linearGradient id="textGradient" x1="238" y1="69" x2="852" y2="147" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.42" stop-color="#EAFBFF"/>
+      <stop offset="0.72" stop-color="#5DDCFF"/>
+      <stop offset="1" stop-color="#A45CFF"/>
+    </linearGradient>
+
+    <linearGradient id="landGradient" x1="637" y1="138" x2="858" y2="138" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7BE8FF"/>
+      <stop offset="1" stop-color="#B75CFF"/>
+    </linearGradient>
+
+    <filter id="softGlow" x="-70%" y="-70%" width="240%" height="240%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="4.5" result="blur1"/>
+      <feColorMatrix in="blur1" type="matrix" values="0 0 0 0 0.20  0 0 0 0 0.75  0 0 0 0 1.00  0 0 0 0.85 0" result="blueGlow"/>
+      <feGaussianBlur stdDeviation="10" in="SourceGraphic" result="blur2"/>
+      <feColorMatrix in="blur2" type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.10  0 0 0 0 1.00  0 0 0 0.45 0" result="violetGlow"/>
+      <feMerge>
+        <feMergeNode in="violetGlow"/>
+        <feMergeNode in="blueGlow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="textGlow" x="-20%" y="-45%" width="150%" height="190%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="2.3" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.22  0 0 0 0 0.79  0 0 0 0 1.00  0 0 0 0.38 0"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <clipPath id="badgeClip">
+      <path d="M110 20L188 65V155L110 200L32 155V65L110 20Z"/>
+    </clipPath>
   </defs>
+
+  <!-- Transparent background by design: no background rectangle -->
+
+  <!-- Monogram badge -->
+  <g filter="url(#softGlow)">
+    <path d="M110 20L188 65V155L110 200L32 155V65L110 20Z" stroke="url(#neonStroke)" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M110 36L174 73V147L110 184L46 147V73L110 36Z" stroke="url(#neonStroke)" stroke-opacity="0.35" stroke-width="2"/>
+  </g>
+
+  <!-- Strict geometric F -->
+  <g filter="url(#softGlow)" clip-path="url(#badgeClip)">
+    <path d="M82 64H146C156.5 64 165 72.5 165 83V84H101V103H151V121H101V158H82V64Z" fill="url(#neonStroke)"/>
+    <path d="M63 155L151 67H174L86 155H63Z" fill="url(#neonStroke)" opacity="0.22"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g filter="url(#textGlow)">
+    <text x="234" y="118" fill="url(#textGradient)" font-family="Unbounded, Manrope, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="0">FORZE</text>
+    <text x="641" y="118" fill="url(#landGradient)" font-family="Unbounded, Manrope, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="0">LAND</text>
+  </g>
+
+  <!-- Minimal underline accent for header style -->
+  <path d="M238 147H858" stroke="url(#neonStroke)" stroke-width="3" stroke-linecap="round" opacity="0.72" filter="url(#textGlow)"/>
+  <path d="M238 162H498" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" opacity="0.28"/>
 </svg>
