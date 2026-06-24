@@ -58,7 +58,14 @@ const useLandingInteractions = () => {
 
         event.preventDefault();
         closeMenu();
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        if (targetId === "#top") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
+        const blockPosition = targetId === "#services" || targetId === "#pricing" ? "center" : "start";
+        target.scrollIntoView({ behavior: "smooth", block: blockPosition });
       };
 
       link.addEventListener("click", handleLinkClick);
