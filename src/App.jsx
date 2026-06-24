@@ -321,7 +321,7 @@ export default function App() {
             className="app-color-bends"
             rotation={90}
             speed={0.2}
-            colors={["#5227FF", "#FF9FFC", "#ffffff"]}
+            colors={["#ffffff", "#000000", "#ffffff"]}
             transparent
             autoRotate={0}
             scale={1}
