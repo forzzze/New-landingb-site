@@ -2,7 +2,12 @@ const burger = document.querySelector(".burger");
 const mobileMenu = document.querySelector(".mobile-menu");
 const navLinks = document.querySelectorAll('a[href^="#"]');
 const faqItems = document.querySelectorAll(".faq-item");
+const colorBendsBg = document.querySelector(".color-bends-bg");
 const cursorGlow = document.querySelector(".cursor-glow");
+const heroVisual = document.querySelector(".hero-visual");
+const revealTargets = document.querySelectorAll(
+  ".section:not(.hero), .glass-card, .feature-card, .process-item, .price-card, .faq-item, .cta-panel"
+);
 
 const closeMenu = () => {
   document.body.classList.remove("menu-open");
@@ -87,6 +92,53 @@ window.addEventListener("load", () => {
   target?.scrollIntoView({ block: "start" });
 });
 
+const setupColorBendsBackground = () => {
+  if (!colorBendsBg) {
+    return;
+  }
+
+  const canUseMotion =
+    window.matchMedia("(pointer: fine)").matches &&
+    window.matchMedia("(min-width: 901px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!canUseMotion) {
+    return;
+  }
+
+  let targetX = 0;
+  let targetY = 0;
+  let currentX = 0;
+  let currentY = 0;
+  let animationFrameId = null;
+
+  const renderBackground = () => {
+    currentX += (targetX - currentX) * 0.08;
+    currentY += (targetY - currentY) * 0.08;
+
+    colorBendsBg.style.setProperty("--bend-x", `${currentX.toFixed(2)}px`);
+    colorBendsBg.style.setProperty("--bend-y", `${currentY.toFixed(2)}px`);
+
+    if (Math.abs(targetX - currentX) > 0.2 || Math.abs(targetY - currentY) > 0.2) {
+      animationFrameId = requestAnimationFrame(renderBackground);
+      return;
+    }
+
+    animationFrameId = null;
+  };
+
+  window.addEventListener("mousemove", (event) => {
+    targetX = (event.clientX / window.innerWidth - 0.5) * 58;
+    targetY = (event.clientY / window.innerHeight - 0.5) * 38;
+
+    if (!animationFrameId) {
+      animationFrameId = requestAnimationFrame(renderBackground);
+    }
+  });
+};
+
+setupColorBendsBackground();
+
 const setupCursorGlow = () => {
   if (!cursorGlow) {
     return;
@@ -170,5 +222,81 @@ const setupCursorGlow = () => {
 };
 
 setupCursorGlow();
+
+const setupHeroParallax = () => {
+  if (!heroVisual) {
+    return;
+  }
+
+  const canUseParallax =
+    window.matchMedia("(pointer: fine)").matches &&
+    window.matchMedia("(min-width: 901px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!canUseParallax) {
+    return;
+  }
+
+  const resetVisual = () => {
+    heroVisual.style.setProperty("--tilt-x", "0deg");
+    heroVisual.style.setProperty("--tilt-y", "0deg");
+    heroVisual.style.setProperty("--visual-x", "0px");
+    heroVisual.style.setProperty("--visual-y", "0px");
+  };
+
+  heroVisual.addEventListener("mousemove", (event) => {
+    const rect = heroVisual.getBoundingClientRect();
+    const offsetX = (event.clientX - rect.left) / rect.width - 0.5;
+    const offsetY = (event.clientY - rect.top) / rect.height - 0.5;
+
+    heroVisual.style.setProperty("--tilt-x", `${(-offsetY * 7).toFixed(2)}deg`);
+    heroVisual.style.setProperty("--tilt-y", `${(offsetX * 8).toFixed(2)}deg`);
+    heroVisual.style.setProperty("--visual-x", `${(offsetX * 10).toFixed(2)}px`);
+    heroVisual.style.setProperty("--visual-y", `${(offsetY * 8).toFixed(2)}px`);
+  });
+
+  heroVisual.addEventListener("mouseleave", resetVisual);
+};
+
+setupHeroParallax();
+
+const setupScrollReveal = () => {
+  if (!revealTargets.length) {
+    return;
+  }
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  revealTargets.forEach((element, index) => {
+    element.classList.add("reveal-item");
+    element.style.setProperty("--reveal-delay", `${Math.min(index % 6, 5) * 45}ms`);
+  });
+
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    revealTargets.forEach((element) => element.classList.add("is-visible"));
+    return;
+  }
+
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      rootMargin: "0px 0px -12% 0px",
+      threshold: 0.12,
+    }
+  );
+
+  revealTargets.forEach((element) => revealObserver.observe(element));
+};
+
+setupScrollReveal();
 
 // TODO: заменить ссылку-заглушку Telegram на реальный username или подключить отправку формы во второй версии.
