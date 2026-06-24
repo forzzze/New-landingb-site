@@ -105,4 +105,10 @@ describe("App", () => {
     expect(headerBrandMarkRule).toContain("width: 48px;");
     expect(headerBrandMarkRule).toContain("height: 48px;");
   });
+
+  it("builds with relative asset paths for subpath hosting", () => {
+    const viteConfig = fs.readFileSync(path.resolve("vite.config.js"), "utf8");
+
+    expect(viteConfig).toContain('base: "./"');
+  });
 });
