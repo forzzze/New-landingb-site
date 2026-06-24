@@ -1,48 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 512 512" fill="none">
   <defs>
     <radialGradient id="inner" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 238) rotate(90) scale(220)">
-      <stop offset="0" stop-color="#211032"/>
-      <stop offset="0.55" stop-color="#12091E"/>
-      <stop offset="1" stop-color="#070412"/>
+      <stop offset="0" stop-color="#20242C"/>
+      <stop offset="0.55" stop-color="#11141B"/>
+      <stop offset="1" stop-color="#07080D"/>
     </radialGradient>
 
     <linearGradient id="border" x1="107" y1="89" x2="410" y2="405" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FF77F4"/>
-      <stop offset="0.35" stop-color="#C356FF"/>
-      <stop offset="0.72" stop-color="#7B4DFF"/>
-      <stop offset="1" stop-color="#3E38FF"/>
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.35" stop-color="#E3E7EF"/>
+      <stop offset="0.72" stop-color="#B8C0CC"/>
+      <stop offset="1" stop-color="#7F8998"/>
     </linearGradient>
 
     <linearGradient id="borderHi" x1="135" y1="85" x2="364" y2="384" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.8"/>
-      <stop offset="0.25" stop-color="#FFB6FF" stop-opacity="0.95"/>
-      <stop offset="0.65" stop-color="#A97CFF" stop-opacity="0.55"/>
+      <stop offset="0.25" stop-color="#F4F6FA" stop-opacity="0.95"/>
+      <stop offset="0.65" stop-color="#C6CDD8" stop-opacity="0.55"/>
       <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.75"/>
     </linearGradient>
 
     <linearGradient id="fMain" x1="174" y1="174" x2="361" y2="354" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFFFFF"/>
-      <stop offset="0.16" stop-color="#FF8CF6"/>
-      <stop offset="0.48" stop-color="#CE45FF"/>
-      <stop offset="0.74" stop-color="#7B47FF"/>
-      <stop offset="1" stop-color="#4828FF"/>
+      <stop offset="0.16" stop-color="#F4F6FA"/>
+      <stop offset="0.48" stop-color="#D9DDE6"/>
+      <stop offset="0.74" stop-color="#B8C0CC"/>
+      <stop offset="1" stop-color="#8791A0"/>
     </linearGradient>
 
     <linearGradient id="fTop" x1="190" y1="178" x2="368" y2="221" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFE9FF"/>
-      <stop offset="0.55" stop-color="#EC55FF"/>
-      <stop offset="1" stop-color="#5C2DFF"/>
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#E8ECF2"/>
+      <stop offset="1" stop-color="#AAB2BF"/>
     </linearGradient>
 
     <linearGradient id="fSide" x1="188" y1="202" x2="235" y2="380" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFACFF"/>
-      <stop offset="0.55" stop-color="#B039FF"/>
-      <stop offset="1" stop-color="#4D25FF"/>
+      <stop offset="0" stop-color="#F4F6FA"/>
+      <stop offset="0.55" stop-color="#C9CED8"/>
+      <stop offset="1" stop-color="#8E98A7"/>
     </linearGradient>
 
     <filter id="hexGlow" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
       <feGaussianBlur stdDeviation="15" result="blur"/>
-      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.54  0 1 0 0 0.10  0 0 1 0 1.00  0 0 0 0.85 0" result="glow"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 1.00  0 1 0 0 1.00  0 0 1 0 1.00  0 0 0 0.52 0" result="glow"/>
       <feMerge>
         <feMergeNode in="glow"/>
         <feMergeNode in="SourceGraphic"/>
@@ -51,7 +51,7 @@
 
     <filter id="softGlow" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
       <feGaussianBlur stdDeviation="8" result="blur"/>
-      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.88  0 1 0 0 0.18  0 0 1 0 1.00  0 0 0 0.9 0" result="glow"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 1.00  0 1 0 0 1.00  0 0 1 0 1.00  0 0 0 0.62 0" result="glow"/>
       <feMerge>
         <feMergeNode in="glow"/>
         <feMergeNode in="SourceGraphic"/>
@@ -59,13 +59,13 @@
     </filter>
 
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="0" dy="15" stdDeviation="12" flood-color="#1C063A" flood-opacity="0.65"/>
+      <feDropShadow dx="0" dy="15" stdDeviation="12" flood-color="#030409" flood-opacity="0.65"/>
     </filter>
   </defs>
 
   <!-- outer neon aura -->
   <polygon points="256 48 428 148 428 348 256 448 84 348 84 148"
-           fill="none" stroke="#904BFF" stroke-width="28" opacity="0.45" filter="url(#hexGlow)"/>
+           fill="none" stroke="#F3F5F8" stroke-width="28" opacity="0.28" filter="url(#hexGlow)"/>
 
   <!-- main hex badge -->
   <g filter="url(#shadow)">
@@ -78,7 +78,7 @@
 
     <!-- dark glass overlay -->
     <polygon points="256 82 394 162 394 330 256 410 118 330 118 162"
-             fill="#070311" opacity="0.38"/>
+             fill="#07080D" opacity="0.38"/>
   </g>
 
   <!-- stylized F -->
@@ -88,20 +88,20 @@
 
     <!-- top face -->
     <polygon points="209 171 344 171 373 196 238 196" fill="url(#fTop)" opacity="0.98"/>
-    <polygon points="238 196 373 196 344 223 238 223" fill="#7E33FF" opacity="0.78"/>
+    <polygon points="238 196 373 196 344 223 238 223" fill="#AEB7C5" opacity="0.78"/>
 
     <!-- middle face -->
-    <polygon points="238 255 322 255 348 278 238 278" fill="#B74AFF" opacity="0.92"/>
-    <polygon points="238 278 348 278 322 303 238 303" fill="#6937FF" opacity="0.78"/>
+    <polygon points="238 255 322 255 348 278 238 278" fill="#D4DAE3" opacity="0.92"/>
+    <polygon points="238 278 348 278 322 303 238 303" fill="#98A2B1" opacity="0.78"/>
 
     <!-- vertical stem facets -->
     <polygon points="181 199 209 171 238 196 238 355 210 383 181 355" fill="url(#fSide)" opacity="0.9"/>
-    <polygon points="181 199 210 226 210 383 181 355" fill="#D64EFF" opacity="0.45"/>
-    <polygon points="210 226 238 196 238 355 210 383" fill="#8C3DFF" opacity="0.42"/>
+    <polygon points="181 199 210 226 210 383 181 355" fill="#F3F5F8" opacity="0.45"/>
+    <polygon points="210 226 238 196 238 355 210 383" fill="#BAC3D0" opacity="0.42"/>
 
     <!-- angular highlights -->
     <path d="M202 194 L219 177 H338" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="4" stroke-linecap="round"/>
-    <path d="M202 204 V340" stroke="#FFBBFF" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round"/>
+    <path d="M202 204 V340" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round"/>
     <path d="M240 260 H315" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="3" stroke-linecap="round"/>
   </g>
 </svg>

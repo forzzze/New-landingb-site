@@ -43,7 +43,7 @@ describe("App", () => {
       expect.objectContaining({
         rotation: 90,
         speed: 0.2,
-        colors: ["#5227FF", "#FF9FFC", "#ffffff"],
+        colors: ["#ffffff", "#d9dde6", "#302746"],
         transparent: true,
         autoRotate: 0,
         scale: 1,
