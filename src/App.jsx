@@ -1,9 +1,59 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ColorBends from "./components/ColorBends.jsx";
 import landingMarkup from "./landing.html?raw";
 import brandMarkUrl from "../assets/brand-mark.svg";
 
 const landingHtml = landingMarkup.replaceAll("assets/brand-mark.svg", brandMarkUrl);
+const animatedBackgroundQueries = ["(pointer: fine)", "(min-width: 901px)", "(prefers-reduced-motion: reduce)"];
+
+const canUseAnimatedBackground = () => {
+  if (typeof window === "undefined" || !window.matchMedia) {
+    return false;
+  }
+
+  return (
+    window.matchMedia(animatedBackgroundQueries[0]).matches &&
+    window.matchMedia(animatedBackgroundQueries[1]).matches &&
+    !window.matchMedia(animatedBackgroundQueries[2]).matches
+  );
+};
+
+const useAnimatedBackground = () => {
+  const [canAnimateBackground, setCanAnimateBackground] = useState(canUseAnimatedBackground);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) {
+      return undefined;
+    }
+
+    const mediaQueries = animatedBackgroundQueries.map((query) => window.matchMedia(query));
+    const updateBackgroundMode = () => setCanAnimateBackground(canUseAnimatedBackground());
+
+    updateBackgroundMode();
+
+    mediaQueries.forEach((mediaQuery) => {
+      if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener("change", updateBackgroundMode);
+        return;
+      }
+
+      mediaQuery.addListener?.(updateBackgroundMode);
+    });
+
+    return () => {
+      mediaQueries.forEach((mediaQuery) => {
+        if (mediaQuery.removeEventListener) {
+          mediaQuery.removeEventListener("change", updateBackgroundMode);
+          return;
+        }
+
+        mediaQuery.removeListener?.(updateBackgroundMode);
+      });
+    };
+  }, []);
+
+  return canAnimateBackground;
+};
 
 const useLandingInteractions = () => {
   useEffect(() => {
@@ -259,28 +309,32 @@ const useLandingInteractions = () => {
 };
 
 export default function App() {
+  const canAnimateBackground = useAnimatedBackground();
+
   useLandingInteractions();
 
   return (
     <>
-      <div className="app-background" aria-hidden="true">
-        <ColorBends
-          className="app-color-bends"
-          rotation={90}
-          speed={0.2}
-          colors={["#ffffff", "#d9dde6", "#302746"]}
-          transparent
-          autoRotate={0}
-          scale={1}
-          frequency={1}
-          warpStrength={1}
-          mouseInfluence={1}
-          parallax={0.5}
-          noise={0.15}
-          iterations={1}
-          intensity={1.5}
-          bandWidth={6}
-        />
+      <div className={`app-background ${canAnimateBackground ? "is-animated" : "is-static"}`} aria-hidden="true">
+        {canAnimateBackground ? (
+          <ColorBends
+            className="app-color-bends"
+            rotation={90}
+            speed={0.2}
+            colors={["#5227FF", "#FF9FFC", "#ffffff"]}
+            transparent
+            autoRotate={0}
+            scale={1}
+            frequency={1}
+            warpStrength={1}
+            mouseInfluence={1}
+            parallax={0.5}
+            noise={0.15}
+            iterations={1}
+            intensity={1.5}
+            bandWidth={6}
+          />
+        ) : null}
       </div>
       <div className="background-overlay" aria-hidden="true" />
       <div className="cursor-glow" aria-hidden="true" />

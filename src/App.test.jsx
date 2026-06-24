@@ -1,11 +1,27 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import fs from "node:fs";
 import path from "node:path";
-import { beforeAll, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App.jsx";
 
 const colorBendsMock = vi.hoisted(() => vi.fn());
+
+const setMatchMedia = ({ finePointer = true, desktop = true, reducedMotion = false } = {}) => {
+  window.matchMedia = vi.fn().mockImplementation((query) => ({
+    matches:
+      (query === "(pointer: fine)" && finePointer) ||
+      (query === "(min-width: 901px)" && desktop) ||
+      (query === "(prefers-reduced-motion: reduce)" && reducedMotion),
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+};
 
 vi.mock("./components/ColorBends.jsx", () => ({
   default: (props) => {
@@ -15,17 +31,10 @@ vi.mock("./components/ColorBends.jsx", () => ({
 }));
 
 describe("App", () => {
-  beforeAll(() => {
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    }));
+  beforeEach(() => {
+    cleanup();
+    colorBendsMock.mockClear();
+    setMatchMedia();
   });
 
   it("renders the landing offer above the Color Bends background", () => {
@@ -34,6 +43,15 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: /Лендинги за 7–14 дней/i })).toBeInTheDocument();
     expect(document.querySelector(".app-background")).toBeInTheDocument();
     expect(screen.getByTestId("color-bends")).toHaveClass("app-color-bends");
+  });
+
+  it("does not mount the animated WebGL background on mobile", () => {
+    setMatchMedia({ finePointer: false, desktop: false });
+
+    render(<App />);
+
+    expect(screen.queryByTestId("color-bends")).not.toBeInTheDocument();
+    expect(document.querySelector(".app-background")).toHaveClass("is-static");
   });
 
   it("uses the requested Color Bends settings", () => {
@@ -104,5 +122,11 @@ describe("App", () => {
     expect(headerBrandRule).toContain("gap: 4px;");
     expect(headerBrandMarkRule).toContain("width: 48px;");
     expect(headerBrandMarkRule).toContain("height: 48px;");
+  });
+
+  it("builds with relative asset paths for subpath hosting", () => {
+    const viteConfig = fs.readFileSync(path.resolve("vite.config.js"), "utf8");
+
+    expect(viteConfig).toContain('base: "./"');
   });
 });
