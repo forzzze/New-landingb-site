@@ -53,6 +53,41 @@ body.menu-open {
   overflow: hidden;
 }
 
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse at 62% 50%,
+    rgba(109, 92, 255, 0.22) 0%,
+    rgba(91, 112, 255, 0.13) 32%,
+    rgba(109, 92, 255, 0.06) 58%,
+    transparent 74%
+  );
+  filter: blur(28px);
+  transform: translate3d(-50%, -50%, 0);
+  transform-origin: center;
+  transition: opacity 320ms ease;
+  will-change: transform, opacity;
+}
+
+.site-header,
+main,
+.site-footer {
+  position: relative;
+}
+
+main,
+.site-footer {
+  z-index: 1;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -910,6 +945,10 @@ h3 {
 }
 
 @media (max-width: 900px) {
+  .cursor-glow {
+    display: none;
+  }
+
   .site-nav,
   .header-cta {
     display: none;
@@ -1101,5 +1140,11 @@ h3 {
   .brand-mark {
     width: 32px;
     height: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    display: none;
   }
 }

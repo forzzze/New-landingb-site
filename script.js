@@ -2,6 +2,7 @@ const burger = document.querySelector(".burger");
 const mobileMenu = document.querySelector(".mobile-menu");
 const navLinks = document.querySelectorAll('a[href^="#"]');
 const faqItems = document.querySelectorAll(".faq-item");
+const cursorGlow = document.querySelector(".cursor-glow");
 
 const closeMenu = () => {
   document.body.classList.remove("menu-open");
@@ -85,5 +86,89 @@ window.addEventListener("load", () => {
 
   target?.scrollIntoView({ block: "start" });
 });
+
+const setupCursorGlow = () => {
+  if (!cursorGlow) {
+    return;
+  }
+
+  const canUseGlow =
+    window.matchMedia("(pointer: fine)").matches &&
+    window.matchMedia("(min-width: 901px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!canUseGlow) {
+    cursorGlow.style.display = "none";
+    return;
+  }
+
+  let targetX = window.innerWidth / 2;
+  let targetY = window.innerHeight / 2;
+  let currentX = targetX;
+  let currentY = targetY;
+  let isVisible = false;
+  let angle = 0;
+  let animationFrameId = null;
+  let hideGlowTimeout = null;
+  const glowSize = 220;
+
+  const renderGlow = () => {
+    const deltaX = targetX - currentX;
+    const deltaY = targetY - currentY;
+    const distance = Math.min(Math.hypot(deltaX, deltaY), 210);
+
+    currentX += deltaX * 0.12;
+    currentY += deltaY * 0.12;
+
+    if (distance > 0.8) {
+      angle = Math.atan2(deltaY, deltaX);
+    }
+
+    const stretch = 1 + Math.min(distance / 180, 0.48);
+    const squeeze = 1 - Math.min(distance / 1500, 0.08);
+
+    cursorGlow.style.transform = `
+      translate3d(${currentX - glowSize / 2}px, ${currentY - glowSize / 2}px, 0)
+      rotate(${angle}rad)
+      scale(${stretch}, ${squeeze})
+    `;
+
+    if (Math.abs(deltaX) > 0.3 || Math.abs(deltaY) > 0.3) {
+      animationFrameId = requestAnimationFrame(renderGlow);
+      return;
+    }
+
+    animationFrameId = null;
+  };
+
+  window.addEventListener("mousemove", (event) => {
+    targetX = event.clientX;
+    targetY = event.clientY;
+
+    window.clearTimeout(hideGlowTimeout);
+
+    if (!isVisible) {
+      isVisible = true;
+      cursorGlow.style.opacity = "1";
+    }
+
+    if (!animationFrameId) {
+      animationFrameId = requestAnimationFrame(renderGlow);
+    }
+
+    hideGlowTimeout = window.setTimeout(() => {
+      isVisible = false;
+      cursorGlow.style.opacity = "0";
+    }, 140);
+  });
+
+  document.addEventListener("mouseleave", () => {
+    window.clearTimeout(hideGlowTimeout);
+    isVisible = false;
+    cursorGlow.style.opacity = "0";
+  });
+};
+
+setupCursorGlow();
 
 // TODO: заменить ссылку-заглушку Telegram на реальный username или подключить отправку формы во второй версии.
