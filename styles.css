@@ -74,9 +74,9 @@ body.menu-open {
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 8%, rgba(255, 255, 255, 0.16), transparent 22%),
-    radial-gradient(circle at 24% 20%, rgba(255, 255, 255, 0.24), transparent 34%),
+    radial-gradient(circle at 24% 20%, rgba(12, 12, 12, 0.24), transparent 34%),
     radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.13), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), #ffffff 78%);
+    linear-gradient(180deg, rgba(46, 46, 46, 0.92), #ffffff 78%);
 }
 
 .app-background.is-animated {
